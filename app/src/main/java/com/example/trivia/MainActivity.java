@@ -36,6 +36,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private int currQuestionIndex = 0;
+    private int score = 0;
     List<Question> questions;
 
     @Override
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("Main", "onCreate: " + questionArrayList);
                 binding.questionTextView.setText(questions.get(currQuestionIndex).getAnswer());
                 updateCounter();
+                updateScore();
             }
         });
         binding.buttonNext.setOnClickListener(new View.OnClickListener() {
@@ -74,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 checkAnswer(true);
                 updateQuestion();
+                updateScore();
 
             }
         });
@@ -82,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 checkAnswer(false);
                 updateQuestion();
+                updateScore();
             }
         });
     }
@@ -89,13 +93,17 @@ public class MainActivity extends AppCompatActivity {
     private void checkAnswer(boolean userChoose) {
         boolean answer = questions.get(currQuestionIndex).isAnswerTrue();
         int snackMessageId = 0;
-        if (userChoose == answer){
+        if (userChoose == answer){ // correct answer
             snackMessageId = R.string.correct_answer;
+            score += 10;
             fadeAnimation();
         }
-        else {
+        else { // incorrect answer
             snackMessageId = R.string.incorrect_answer;
             shakeAnimation();
+            if (score>=10){
+                score-=10;
+            }
         }
         Snackbar.make(binding.cardView, snackMessageId, Snackbar.LENGTH_SHORT).show();
     }
@@ -103,7 +111,9 @@ public class MainActivity extends AppCompatActivity {
     private void updateCounter() {
         binding.textViewOutOf.setText(format("Question: %d/%d", currQuestionIndex+1, questions.size()));
     }
-
+    private void updateScore() {
+        binding.scoreTextView.setText(format("Your score: %d", score));
+    }
     private void updateQuestion() {
         binding.questionTextView.setText(questions.get(currQuestionIndex).getAnswer());
         updateCounter();
