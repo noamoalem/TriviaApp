@@ -9,4 +9,7 @@
     <string name="question_txt_style">hi</string>
     <string name="correct_answer">Correct!</string>
     <string name="incorrect_answer">Incorrect answer :(</string>
+    <string name="Highest_score">Highest score: </string>
+    <string name="prev_text">Prev</string>
+    <string name="score_text">"Your score: "</string>
 </resources>

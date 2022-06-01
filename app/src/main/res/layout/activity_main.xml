@@ -109,7 +109,7 @@
             android:layout_marginStart="16dp"
             android:fontFamily="@font/andika"
             android:padding="@dimen/button_padding"
-            android:text="Prev"
+            android:text="@string/prev_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/button_next"
             app:layout_constraintHorizontal_bias="0.0"
@@ -119,17 +119,35 @@
 
         <TextView
             android:id="@+id/score_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="140dp"
+            android:layout_height="43dp"
+            android:layout_margin="@dimen/score_margin"
+            android:layout_marginTop="56dp"
             android:fontFamily="@font/andika"
-            android:text="Your score: "
-            android:textColor="@color/button_text_color"
-            app:layout_constraintBottom_toTopOf="@+id/card_view"
+            android:padding="@dimen/button_padding"
+            android:text="@string/score_text"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/highest_score"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.503"
+            app:layout_constraintHorizontal_bias="0.73"
             app:layout_constraintStart_toEndOf="@+id/text_view_out_of"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.855" />
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/highest_score"
+            android:layout_width="140dp"
+            android:layout_height="43dp"
+            android:layout_margin="@dimen/score_margin"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/andika"
+            android:padding="@dimen/button_padding"
+            android:text="Highest score:"
+            android:textColor="#FFFFFF"
+            app:layout_constraintBottom_toTopOf="@+id/card_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.74"
+            app:layout_constraintStart_toEndOf="@+id/text_view_out_of" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -4,4 +4,5 @@
     <dimen name="button_padding">6dp</dimen>
     <dimen name="corner">6dp</dimen>
     <dimen name="question_text_padding">8dp</dimen>
+    <dimen name="score_margin">6dp</dimen>
 </resources>
