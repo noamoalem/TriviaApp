@@ -28,6 +28,7 @@ import com.example.trivia.data.Repository;
 import com.example.trivia.databinding.ActivityMainBinding;
 import com.example.trivia.model.Question;
 import com.example.trivia.model.Score;
+import com.example.trivia.utils.Prefs;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONArray;
@@ -36,11 +37,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String HIGHEST_SCORE = "HIGHEST_SCORE_PREF";
     private ActivityMainBinding binding;
     private int currQuestionIndex = 0;
     private Score score;
-    private int highest_score = 0;
+    Prefs prefs;
     List<Question> questions;
 
     @Override
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         score = new Score();
-
+        prefs = new Prefs(MainActivity.this);
         questions = new Repository().getQuestions(new AnswerListAsyncResponse() {
             @Override
             public void processFinished(ArrayList<Question> questionArrayList) {
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
                 binding.questionTextView.setText(questions.get(currQuestionIndex).getAnswer());
                 updateCounter();
                 updateScore();
-                getHighestScore();
+                updateHighestScore();
             }
         });
         binding.buttonNext.setOnClickListener(new View.OnClickListener() {
@@ -101,34 +101,22 @@ public class MainActivity extends AppCompatActivity {
         int snackMessageId = 0;
         if (userChoose == answer){ // correct answer
             snackMessageId = R.string.correct_answer;
-            score.increaseScore();
             fadeAnimation();
+            score.increaseScore();
+            prefs.saveHighestScore(score.getScore());
             updateHighestScore();
         }
         else { // incorrect answer
             snackMessageId = R.string.incorrect_answer;
             shakeAnimation();
             score.decreaseScore();
-
-            }
+        }
         Snackbar.make(binding.cardView, snackMessageId, Snackbar.LENGTH_SHORT).show();
     }
 
     private void updateHighestScore() {
         // update and save the highest score
-        highest_score = Math.max(score.getScore(), highest_score);
-        binding.highestScore.setText(String.format("%s %d", getString(R.string.Highest_score), highest_score));
-        SharedPreferences sharedPreferences = getSharedPreferences(HIGHEST_SCORE, MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt("highest_score", highest_score);
-        editor.apply(); // saving to disk
-    }
-
-    private void getHighestScore(){
-        // get data back from shared prefrences
-        SharedPreferences getSharedData = getSharedPreferences(HIGHEST_SCORE, MODE_PRIVATE);
-        highest_score = getSharedData.getInt("highest_score", highest_score);
-        updateHighestScore();
+        binding.highestScore.setText(String.format("%s %d", getString(R.string.Highest_score), prefs.getHighestScore()));
     }
 
     private void updateCounter() {
