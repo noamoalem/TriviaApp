@@ -9,6 +9,7 @@ import com.example.trivia.R;
 public class Prefs {
     private SharedPreferences preferences;
     private static final String HIGHEST_SCORE = "highest_score";
+    private static final String TRIVIA_STATE = "trivia_state";
 
     public Prefs(Activity context) {
         this.preferences = context.getPreferences(Context.MODE_PRIVATE);
@@ -26,5 +27,12 @@ public class Prefs {
     public int getHighestScore(){
         // get data back from shared prefrences
         return preferences.getInt(HIGHEST_SCORE, 0);
+    }
+
+    public void setState(int idx){
+        preferences.edit().putInt(TRIVIA_STATE, idx).apply();
+    }
+    public int getState(){
+        return preferences.getInt(TRIVIA_STATE, 0);
     }
 }
